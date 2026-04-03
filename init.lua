@@ -41,6 +41,35 @@ local on_attach = function(client, bufnr)
 
 end
 
+local open_lazygit = function ()
+    local buf = vim.api.nvim_create_buf(false, true)
+    
+    local w = math.floor(vim.o.columns * 0.9)
+    local h = math.floor(vim.o.lines* 0.85)
+    local r = math.floor((vim.o.lines - h) / 2)
+    local c = math.floor((vim.o.columns - w) / 2)
+
+    vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = w, 
+        height = h, 
+        row = r, 
+        col = c,
+        style = "minimal",
+        border = "rounded",
+    })
+
+    vim.fn.termopen('lazygit', {
+        on_exit = function ()
+            vim.api.nvim_buf_delete(buf, {force = true})
+        end
+    })
+    vim.cmd('startinsert')
+end
+
+
+vim.keymap.set('n', '<leader>gg', open_lazygit, {})
+
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = on_attach
 })
@@ -106,3 +135,9 @@ require('telescope').setup()
 local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
+
+-- Filemanager
+vim.pack.add({
+    'https://github.com/nvim-mini/mini.files'
+})
+require('mini.files').setup()
