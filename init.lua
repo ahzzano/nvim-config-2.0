@@ -44,8 +44,8 @@ end
 local open_lazygit = function ()
     local buf = vim.api.nvim_create_buf(false, true)
     
-    local w = math.floor(vim.o.columns * 0.9)
-    local h = math.floor(vim.o.lines* 0.85)
+    local w = math.floor(vim.o.columns * 0.8)
+    local h = math.floor(vim.o.lines* 0.8)
     local r = math.floor((vim.o.lines - h) / 2)
     local c = math.floor((vim.o.columns - w) / 2)
 
@@ -53,7 +53,7 @@ local open_lazygit = function ()
         relative = 'editor',
         width = w, 
         height = h, 
-        row = r, 
+        row = r - 2, 
         col = c,
         style = "minimal",
         border = "rounded",
