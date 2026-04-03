@@ -1,0 +1,108 @@
+vim.g.mapleader = " "
+vim.o.background = "dark"
+vim.o.backup = false
+vim.o.expandtab = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
+vim.o.number = true
+vim.o.scrolloff = 8
+vim.o.shiftwidth = 4
+vim.o.showmode = false
+vim.o.signcolumn = "yes"
+vim.o.smartindent = true
+vim.o.softtabstop = 4
+vim.o.swapfile = false
+vim.o.tabstop = 4
+vim.o.termguicolors = true
+vim.o.updatetime = 50
+vim.o.winborder = "rounded"
+vim.o.wrap = false
+
+vim.opt.relativenumber = true
+vim.opt.number = true
+
+-- Keymaps
+vim.keymap.set('v', '>', '>gv', { noremap = true })
+vim.keymap.set('v', '<', '<gv', { noremap = true })
+
+vim.keymap.set('n', 'Y', 'yy')
+vim.keymap.set('v', '<C-c>', '"+y')
+
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap=true, silent=true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap=true, silent=true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap=true, silent=true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap=true, silent=true })
+
+local on_attach = function(client, bufnr)
+    local opts = { noremap=true, silent=true }
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+
+end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = on_attach
+})
+
+-- Plugins
+-- Theme
+vim.pack.add({
+	{ src = "https://github.com/catppuccin/nvim.git", name = "catppuccin" },
+})
+vim.cmd.colorscheme "catppuccin"
+
+-- Autopairs
+vim.pack.add({
+    { src='https://github.com/windwp/nvim-autopairs' }
+})
+require('nvim-autopairs').setup()
+
+-- nvim.surround
+vim.pack.add({
+    {src = 'https://github.com/kylechui/nvim-surround'}
+})
+require('nvim-surround').setup()
+
+-- Treesitter
+vim.pack.add({
+	'https://github.com/nvim-treesitter/nvim-treesitter'
+})
+
+-- LSP Config 
+vim.pack.add({
+    { src = 'https://github.com/neovim/nvim-lspconfig' },
+    { src = 'https://github.com/mason-org/mason.nvim' },
+    { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
+})
+
+require('mason').setup()
+require('mason-lspconfig').setup()
+
+vim.lsp.config("rust_analyzer", { on_attach = on_attach })
+
+-- Blink.cmp
+vim.pack.add({
+	{ src = "https://github.com/Saghen/blink.cmp", version = "v1.6.0" },
+})
+require("blink.cmp").setup({
+	keymap = { preset = 'enter' },
+	appearance = {
+		nerd_font_variant = 'mono'
+	},
+	completion = { documentation = { auto_show = true } },
+	sources = {
+		default = { 'lsp', 'path', 'snippets', 'buffer' },
+	},
+	fuzzy = { implementation = "prefer_rust" }
+})
+
+-- Telescope
+vim.pack.add({
+    'https://github.com/nvim-lua/plenary.nvim',
+    'https://github.com/nvim-telescope/telescope.nvim'
+})
+require('telescope').setup()
+local builtin = require('telescope.builtin')
+
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
