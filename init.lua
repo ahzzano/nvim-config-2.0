@@ -143,3 +143,7 @@ vim.pack.add({
 require('mini.files').setup()
 
 vim.keymap.set("n", "<leader>op", MiniFiles.open, opts)
+
+-- Undotree 
+vim.cmd("packadd nvim.undotree")
+vim.keymap.set("n", "<leader>u", require('undotree').open)
