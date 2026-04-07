@@ -162,6 +162,9 @@ require('telescope').setup()
 local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>gs', builtin.git_status, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>gc', builtin.git_commits, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>gb', builtin.git_branches, { noremap=true, silent=true })
 
 -- Filemanager
 vim.pack.add({
@@ -169,7 +172,7 @@ vim.pack.add({
 })
 require('mini.files').setup()
 
-vim.keymap.set("n", "<leader>pv", MiniFiles.open, opts)
+vim.keymap.set("n", "<leader>pv", MiniFiles.open, {})
 
 -- Gitsigns
 vim.pack.add({
