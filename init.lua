@@ -174,3 +174,9 @@ vim.keymap.set("n", "<leader>pv", MiniFiles.open, opts)
 -- Undotree 
 vim.cmd("packadd nvim.undotree")
 vim.keymap.set("n", "<leader>u", require('undotree').open)
+
+-- Markdown stuff
+vim.pack.add({
+  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+  "https://github.com/iamcco/markdown-preview.nvim",
+})
