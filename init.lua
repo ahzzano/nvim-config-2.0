@@ -50,15 +50,16 @@ local open_lazygit = function ()
     local r = math.floor((vim.o.lines - h) / 2)
     local c = math.floor((vim.o.columns - w) / 2)
 
-    vim.api.nvim_open_win(buf, true, {
-        relative = 'editor',
-        width = w, 
-        height = h, 
-        row = r - 2, 
-        col = c,
-        style = "minimal",
-        border = "rounded",
-    })
+    -- vim.api.nvim_open_win(buf, true, {
+    --     relative = 'editor',
+    --     width = w, 
+    --     height = h, 
+    --     row = r - 2, 
+    --     col = c,
+    --     style = "minimal",
+    --     border = "rounded",
+    -- })
+    vim.api.nvim_open_tabpage(buf, true, {})
 
     vim.fn.termopen('lazygit', {
         on_exit = function ()
@@ -112,7 +113,7 @@ require("nvim-treesitter").install({
     "go",
     "python",
     "c",
-    "c++"
+    "cpp"
 })
 
 -- LSP Config 
