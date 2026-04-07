@@ -38,6 +38,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
 
 end
 
@@ -109,6 +110,13 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 
 vim.lsp.config("rust_analyzer", { on_attach = on_attach })
+vim.lsp.enable("rust_analyzer")
+vim.lsp.enable("gopls")
+vim.lsp.enable("clangd")
+vim.lsp.enable("svelte")
+vim.lsp.enable("biome")
+vim.lsp.eanble("tailwindcss")
+vim.lsp.eanble("dockerls")
 
 -- Blink.cmp
 vim.pack.add({
