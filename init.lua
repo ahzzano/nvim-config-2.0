@@ -96,7 +96,23 @@ require('nvim-surround').setup()
 
 -- Treesitter
 vim.pack.add({
-	'https://github.com/nvim-treesitter/nvim-treesitter'
+	{ 
+        src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+        version = "main",
+    },
+})
+require("nvim-treesitter").setup({
+    install_dir = vim.fn.stdpath('data') .. '/site'
+})
+require("nvim-treesitter").install({
+	"lua",
+	"javascript",
+    "dockerfile",
+    "rust",
+    "go",
+    "python",
+    "c",
+    "c++"
 })
 
 -- LSP Config 
@@ -110,13 +126,15 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 
 vim.lsp.config("rust_analyzer", { on_attach = on_attach })
+
 vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("gopls")
 vim.lsp.enable("clangd")
 vim.lsp.enable("svelte")
 vim.lsp.enable("biome")
-vim.lsp.eanble("tailwindcss")
-vim.lsp.eanble("dockerls")
+vim.lsp.enable("tailwindcss")
+vim.lsp.enable("dockerls")
+vim.lsp.enable("pyright")
 
 -- Blink.cmp
 vim.pack.add({
@@ -150,7 +168,7 @@ vim.pack.add({
 })
 require('mini.files').setup()
 
-vim.keymap.set("n", "<leader>op", MiniFiles.open, opts)
+vim.keymap.set("n", "<leader>pv", MiniFiles.open, opts)
 
 -- Undotree 
 vim.cmd("packadd nvim.undotree")
