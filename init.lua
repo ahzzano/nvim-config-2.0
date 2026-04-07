@@ -171,7 +171,45 @@ require('mini.files').setup()
 
 vim.keymap.set("n", "<leader>pv", MiniFiles.open, opts)
 
--- Undotree 
+-- Gitsigns
+vim.pack.add({
+    { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+})
+require('gitsigns').setup({
+    current_line_blame = true,
+	signs = {
+		add = { text = "▎" },
+		change = { text = "▎" },
+		delete = { text = "" },
+		topdelete = { text = "" },
+		changedelete = { text = "▎" },
+		untracked = { text = "▎" },
+	},
+	signs_staged = {
+		add = { text = "▎" },
+		change = { text = "▎" },
+		delete = { text = "" },
+		topdelete = { text = "" },
+		changedelete = { text = "▎" },
+	},
+    on_attach = function (bufnr)
+        local gs = package.loaded.gitsigns
+
+        -- jump to hunks
+        vim.keymap.set('n', ']h', function () gs.nav_hunk("next") end, {})
+        vim.keymap.set('n', ']h', function () gs.nav_hunk("prev") end, {})
+
+        -- stage/reset
+       vim.keymap.set({"n", "v"}, "<leader>ghs", ":Gitsigns stage_hunk<CR>", {})
+       vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", {})
+
+       vim.keymap.set({"n", "v"}, "<leader>ghS", gs.stage_buffer, {})
+       vim.keymap.set({ "n", "v" }, "<leader>ghR", gs.reset_buffer, {})
+        
+    end
+})
+
+-- Undotree
 vim.cmd("packadd nvim.undotree")
 vim.keymap.set("n", "<leader>u", require('undotree').open)
 
