@@ -1,4 +1,3 @@
-vim.g.mapleader = " "
 vim.o.background = "dark"
 vim.o.backup = false
 vim.o.expandtab = true
@@ -38,8 +37,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts)
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-
 end
 
 local open_lazygit = function ()
@@ -221,3 +220,13 @@ vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/iamcco/markdown-preview.nvim",
 })
+
+-- Debugger Stuff
+vim.pack.add({
+	"https://github.com/mfussenegger/nvim-dap",
+	"https://github.com/rcarriga/nvim-dap-ui",
+	"https://github.com/nvim-neotest/nvim-nio",
+	"https://github.com/theHamsta/nvim-dap-virtual-text",
+})
+
+local dap = require('dap')
