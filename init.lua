@@ -17,6 +17,8 @@ vim.o.updatetime = 50
 vim.o.winborder = "rounded"
 vim.o.wrap = false
 
+vim.g.mapleader = ' '
+
 vim.opt.relativenumber = true
 vim.opt.number = true
 
@@ -43,21 +45,6 @@ end
 
 local open_lazygit = function ()
     local buf = vim.api.nvim_create_buf(false, true)
-    
-    local w = math.floor(vim.o.columns * 0.8)
-    local h = math.floor(vim.o.lines* 0.8)
-    local r = math.floor((vim.o.lines - h) / 2)
-    local c = math.floor((vim.o.columns - w) / 2)
-
-    -- vim.api.nvim_open_win(buf, true, {
-    --     relative = 'editor',
-    --     width = w, 
-    --     height = h, 
-    --     row = r - 2, 
-    --     col = c,
-    --     style = "minimal",
-    --     border = "rounded",
-    -- })
     vim.api.nvim_open_tabpage(buf, true, {})
 
     vim.fn.termopen('lazygit', {
