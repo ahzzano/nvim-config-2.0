@@ -34,13 +34,17 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap=true, silent=true })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap=true, silent=true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap=true, silent=true })
 
+vim.keymap.set('n', 'sv', '<C-w>v', {noremap=true, silent=true})
+vim.keymap.set('n', 'sx', '<C-w>s', {noremap=true, silent=true})
+
 local on_attach = function(client, bufnr)
     local opts = { noremap=true, silent=true }
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts)
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', "<leader>cf", vim.lsp.buf.format, opts)
 end
 
 local open_lazygit = function ()
@@ -89,8 +93,9 @@ vim.pack.add({
     },
 })
 require("nvim-treesitter").setup({
-    install_dir = vim.fn.stdpath('data') .. '/site'
+    install_dir = vim.fn.stdpath('data') .. '/site',
 })
+
 require("nvim-treesitter").install({
 	"lua",
 	"javascript",
@@ -99,7 +104,14 @@ require("nvim-treesitter").install({
     "go",
     "python",
     "c",
-    "cpp"
+    "cpp",
+    "svelte"
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function ()
+        pcall(vim.treesitter.start)
+    end
 })
 
 -- LSP Config 
@@ -122,6 +134,7 @@ vim.lsp.enable("biome")
 vim.lsp.enable("tailwindcss")
 vim.lsp.enable("dockerls")
 vim.lsp.enable("pyright")
+vim.lsp.enable("ts_ls")
 
 -- Blink.cmp
 vim.pack.add({
@@ -140,17 +153,40 @@ require("blink.cmp").setup({
 })
 
 -- Telescope
+-- vim.pack.add({
+--     'https://github.com/nvim-lua/plenary.nvim',
+--     'https://github.com/nvim-telescope/telescope.nvim'
+-- })
+-- require('telescope').setup()
+-- local builtin = require('telescope.builtin')
+--
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
+-- vim.keymap.set('n', '<leader>gs', builtin.git_status, { noremap=true, silent=true })
+-- vim.keymap.set('n', '<leader>gc', builtin.git_commits, { noremap=true, silent=true })
+-- vim.keymap.set('n', '<leader>gb', builtin.git_branches, { noremap=true, silent=true })
 vim.pack.add({
-    'https://github.com/nvim-lua/plenary.nvim',
-    'https://github.com/nvim-telescope/telescope.nvim'
+    'https://github.com/dmtrKovalenko/fff.nvim'
 })
-require('telescope').setup()
-local builtin = require('telescope.builtin')
 
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
-vim.keymap.set('n', '<leader>gs', builtin.git_status, { noremap=true, silent=true })
-vim.keymap.set('n', '<leader>gc', builtin.git_commits, { noremap=true, silent=true })
-vim.keymap.set('n', '<leader>gb', builtin.git_branches, { noremap=true, silent=true })
+vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function (ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if name == 'fff.nvim' and (kind == 'install' or kind == 'update') then
+            if not ev.data.active then vim.cmd.packadd('fff.nvim') end
+            require('fff.download').download_or_build_binary()
+        end
+        
+    end
+})
+
+vim.g.fff = {
+    lazy_sync = true,
+}
+
+vim.keymap.set('n', '<leader>ff', function ()
+    require('fff').find_files()
+    
+end, { noremap=true, silent=true })
 
 -- Filemanager
 vim.pack.add({

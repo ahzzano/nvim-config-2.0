@@ -9,6 +9,10 @@
       "rev": "16408d203973da7e43fab87c6f9d3bf7fa98fa8b",
       "src": "https://github.com/catppuccin/nvim.git"
     },
+    "fff.nvim": {
+      "rev": "3aaa9412cfc02774758a5f94d3f033b14730fd4e",
+      "src": "https://github.com/dmtrKovalenko/fff.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "0d797daee85366bc242580e352a4f62d67557b84",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
