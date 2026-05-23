@@ -59,7 +59,6 @@ local open_lazygit = function ()
     vim.cmd('startinsert')
 end
 
-
 vim.keymap.set('n', '<leader>gg', open_lazygit, {})
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -68,10 +67,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- Plugins
 -- Theme
-vim.pack.add({
-	{ src = "https://github.com/catppuccin/nvim.git", name = "catppuccin" },
-})
-vim.cmd.colorscheme "catppuccin"
+vim.pack.add({ 'https://github.com/vague-theme/vague.nvim' })
+vim.cmd.colorscheme('vague')
 
 -- Autopairs
 vim.pack.add({
@@ -117,12 +114,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- LSP Config 
 vim.pack.add({
     { src = 'https://github.com/neovim/nvim-lspconfig' },
-    { src = 'https://github.com/mason-org/mason.nvim' },
-    { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
 })
-
-require('mason').setup()
-require('mason-lspconfig').setup()
 
 vim.lsp.config("rust_analyzer", { on_attach = on_attach })
 
@@ -134,6 +126,7 @@ vim.lsp.enable("biome")
 vim.lsp.enable("tailwindcss")
 vim.lsp.enable("dockerls")
 vim.lsp.enable("pyright")
+vim.lsp.enable('lua_ls')
 vim.lsp.enable("ts_ls")
 
 -- Blink.cmp
@@ -152,18 +145,6 @@ require("blink.cmp").setup({
 	fuzzy = { implementation = "prefer_rust" }
 })
 
--- Telescope
--- vim.pack.add({
---     'https://github.com/nvim-lua/plenary.nvim',
---     'https://github.com/nvim-telescope/telescope.nvim'
--- })
--- require('telescope').setup()
--- local builtin = require('telescope.builtin')
---
--- vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap=true, silent=true })
--- vim.keymap.set('n', '<leader>gs', builtin.git_status, { noremap=true, silent=true })
--- vim.keymap.set('n', '<leader>gc', builtin.git_commits, { noremap=true, silent=true })
--- vim.keymap.set('n', '<leader>gb', builtin.git_branches, { noremap=true, silent=true })
 vim.pack.add({
     'https://github.com/dmtrKovalenko/fff.nvim'
 })
@@ -175,7 +156,6 @@ vim.api.nvim_create_autocmd('PackChanged', {
             if not ev.data.active then vim.cmd.packadd('fff.nvim') end
             require('fff.download').download_or_build_binary()
         end
-        
     end
 })
 
@@ -185,16 +165,18 @@ vim.g.fff = {
 
 vim.keymap.set('n', '<leader>ff', function ()
     require('fff').find_files()
-    
+end, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>fz', function ()
+    require('fff').live_grep()
 end, { noremap=true, silent=true })
 
 -- Filemanager
 vim.pack.add({
-    'https://github.com/nvim-mini/mini.files'
+    'https://github.com/stevearc/oil.nvim'
 })
-require('mini.files').setup()
+require('oil').setup()
 
-vim.keymap.set("n", "<leader>pv", MiniFiles.open, {})
+vim.keymap.set("n", "<leader>pv", '<CMD>Oil<CR>', {})
 
 -- Gitsigns
 vim.pack.add({
@@ -253,3 +235,8 @@ vim.pack.add({
 })
 
 local dap = require('dap')
+
+-- Some commands
+vim.api.nvim_create_user_command("PackDel", function (opts)
+    vim.pack.del(opts.fargs)
+end, {nargs = '+', desc='Delete plugins (space separated)'})
