@@ -116,6 +116,11 @@ vim.pack.add({
     { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
 
+vim.pack.add({
+    'https://github.com/rcarriga/nvim-notify'
+})
+vim.notify = require("notify")
+
 vim.lsp.config("rust_analyzer", { on_attach = on_attach })
 
 vim.lsp.enable("rust_analyzer")
@@ -129,6 +134,15 @@ vim.lsp.enable("pyright")
 vim.lsp.enable('lua_ls')
 vim.lsp.enable("ts_ls")
 
+vim.pack.add({
+  'https://github.com/MunifTanjim/nui.nvim',
+  'https://github.com/mfussenegger/nvim-dap',
+
+  'https://github.com/nvim-java/nvim-java',
+})
+
+-- require('java').setup()
+vim.lsp.enable('jdtls')
 -- Blink.cmp
 vim.pack.add({
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1.6.0" },
@@ -171,12 +185,17 @@ vim.keymap.set('n', '<leader>fz', function ()
 end, { noremap=true, silent=true })
 
 -- Filemanager
-vim.pack.add({
-    'https://github.com/stevearc/oil.nvim'
-})
-require('oil').setup()
+-- vim.pack.add({
+--     'https://github.com/stevearc/oil.nvim'
+-- })
+-- require('oil').setup()
 
-vim.keymap.set("n", "<leader>pv", '<CMD>Oil<CR>', {})
+-- vim.keymap.set("n", "<leader>pv", '<CMD>Oil<CR>', {})
+vim.pack.add({
+    'https://github.com/nvim-mini/mini.files'
+})
+require('mini.files').setup()
+vim.keymap.set("n", "<leader>pv", MiniFiles.open, {})
 
 -- Gitsigns
 vim.pack.add({
