@@ -29,16 +29,16 @@ vim.keymap.set('v', '<', '<gv', { noremap = true })
 vim.keymap.set('n', 'Y', 'yy')
 vim.keymap.set('v', '<C-c>', '"+y')
 
-vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap=true, silent=true })
-vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap=true, silent=true })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap=true, silent=true })
-vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap=true, silent=true })
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 
-vim.keymap.set('n', 'sv', '<C-w>v', {noremap=true, silent=true})
-vim.keymap.set('n', 'sx', '<C-w>s', {noremap=true, silent=true})
+vim.keymap.set('n', 'sv', '<C-w>v', { noremap = true, silent = true })
+vim.keymap.set('n', 'sx', '<C-w>s', { noremap = true, silent = true })
 
 local on_attach = function(client, bufnr)
-    local opts = { noremap=true, silent=true }
+    local opts = { noremap = true, silent = true }
     vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
@@ -47,13 +47,13 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', "<leader>cf", vim.lsp.buf.format, opts)
 end
 
-local open_lazygit = function ()
+local open_lazygit = function()
     local buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_open_tabpage(buf, true, {})
 
     vim.fn.termopen('lazygit', {
-        on_exit = function ()
-            vim.api.nvim_buf_delete(buf, {force = true})
+        on_exit = function()
+            vim.api.nvim_buf_delete(buf, { force = true })
         end
     })
     vim.cmd('startinsert')
@@ -72,19 +72,19 @@ vim.cmd.colorscheme('vague')
 
 -- Autopairs
 vim.pack.add({
-    { src='https://github.com/windwp/nvim-autopairs' }
+    { src = 'https://github.com/windwp/nvim-autopairs' }
 })
 require('nvim-autopairs').setup()
 
 -- nvim.surround
 vim.pack.add({
-    {src = 'https://github.com/kylechui/nvim-surround'}
+    { src = 'https://github.com/kylechui/nvim-surround' }
 })
 require('nvim-surround').setup()
 
 -- Treesitter
 vim.pack.add({
-	{ 
+    {
         src = 'https://github.com/nvim-treesitter/nvim-treesitter',
         version = "main",
     },
@@ -94,8 +94,8 @@ require("nvim-treesitter").setup({
 })
 
 require("nvim-treesitter").install({
-	"lua",
-	"javascript",
+    "lua",
+    "javascript",
     "dockerfile",
     "rust",
     "go",
@@ -106,12 +106,12 @@ require("nvim-treesitter").install({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    callback = function ()
+    callback = function()
         pcall(vim.treesitter.start)
     end
 })
 
--- LSP Config 
+-- LSP Config
 vim.pack.add({
     { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
@@ -135,28 +135,32 @@ vim.lsp.enable('lua_ls')
 vim.lsp.enable("ts_ls")
 
 vim.pack.add({
-  'https://github.com/MunifTanjim/nui.nvim',
-  'https://github.com/mfussenegger/nvim-dap',
+    {
+        src = 'https://github.com/JavaHello/spring-boot.nvim',
+        version = '218c0c26c14d99feca778e4d13f5ec3e8b1b60f0',
+    },
+    'https://github.com/MunifTanjim/nui.nvim',
+    'https://github.com/mfussenegger/nvim-dap',
 
-  'https://github.com/nvim-java/nvim-java',
+    'https://github.com/nvim-java/nvim-java',
 })
 
--- require('java').setup()
+require('java').setup()
 vim.lsp.enable('jdtls')
 -- Blink.cmp
 vim.pack.add({
-	{ src = "https://github.com/Saghen/blink.cmp", version = "v1.6.0" },
+    { src = "https://github.com/Saghen/blink.cmp", version = "v1.6.0" },
 })
 require("blink.cmp").setup({
-	keymap = { preset = 'enter' },
-	appearance = {
-		nerd_font_variant = 'mono'
-	},
-	completion = { documentation = { auto_show = true } },
-	sources = {
-		default = { 'lsp', 'path', 'snippets', 'buffer' },
-	},
-	fuzzy = { implementation = "prefer_rust" }
+    keymap = { preset = 'enter' },
+    appearance = {
+        nerd_font_variant = 'mono'
+    },
+    completion = { documentation = { auto_show = true } },
+    sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+    fuzzy = { implementation = "prefer_rust" }
 })
 
 vim.pack.add({
@@ -164,7 +168,7 @@ vim.pack.add({
 })
 
 vim.api.nvim_create_autocmd('PackChanged', {
-    callback = function (ev)
+    callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
         if name == 'fff.nvim' and (kind == 'install' or kind == 'update') then
             if not ev.data.active then vim.cmd.packadd('fff.nvim') end
@@ -177,12 +181,12 @@ vim.g.fff = {
     lazy_sync = true,
 }
 
-vim.keymap.set('n', '<leader>ff', function ()
+vim.keymap.set('n', '<leader>ff', function()
     require('fff').find_files()
-end, { noremap=true, silent=true })
-vim.keymap.set('n', '<leader>fz', function ()
+end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>fz', function()
     require('fff').live_grep()
-end, { noremap=true, silent=true })
+end, { noremap = true, silent = true })
 
 -- Filemanager
 -- vim.pack.add({
@@ -203,35 +207,34 @@ vim.pack.add({
 })
 require('gitsigns').setup({
     current_line_blame = true,
-	signs = {
-		add = { text = "▎" },
-		change = { text = "▎" },
-		delete = { text = "" },
-		topdelete = { text = "" },
-		changedelete = { text = "▎" },
-		untracked = { text = "▎" },
-	},
-	signs_staged = {
-		add = { text = "▎" },
-		change = { text = "▎" },
-		delete = { text = "" },
-		topdelete = { text = "" },
-		changedelete = { text = "▎" },
-	},
-    on_attach = function (bufnr)
+    signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+        untracked = { text = "▎" },
+    },
+    signs_staged = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+    },
+    on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
         -- jump to hunks
-        vim.keymap.set('n', ']h', function () gs.nav_hunk("next") end, {})
-        vim.keymap.set('n', ']h', function () gs.nav_hunk("prev") end, {})
+        vim.keymap.set('n', ']h', function() gs.nav_hunk("next") end, {})
+        vim.keymap.set('n', ']h', function() gs.nav_hunk("prev") end, {})
 
         -- stage/reset
-       vim.keymap.set({"n", "v"}, "<leader>ghs", ":Gitsigns stage_hunk<CR>", {})
-       vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", {})
+        vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", {})
+        vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", {})
 
-       vim.keymap.set({"n", "v"}, "<leader>ghS", gs.stage_buffer, {})
-       vim.keymap.set({ "n", "v" }, "<leader>ghR", gs.reset_buffer, {})
-        
+        vim.keymap.set({ "n", "v" }, "<leader>ghS", gs.stage_buffer, {})
+        vim.keymap.set({ "n", "v" }, "<leader>ghR", gs.reset_buffer, {})
     end
 })
 
@@ -241,21 +244,21 @@ vim.keymap.set("n", "<leader>u", require('undotree').open)
 
 -- Markdown stuff
 vim.pack.add({
-  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
-  "https://github.com/iamcco/markdown-preview.nvim",
+    "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+    "https://github.com/iamcco/markdown-preview.nvim",
 })
 
 -- Debugger Stuff
 vim.pack.add({
-	"https://github.com/mfussenegger/nvim-dap",
-	"https://github.com/rcarriga/nvim-dap-ui",
-	"https://github.com/nvim-neotest/nvim-nio",
-	"https://github.com/theHamsta/nvim-dap-virtual-text",
+    "https://github.com/mfussenegger/nvim-dap",
+    "https://github.com/rcarriga/nvim-dap-ui",
+    "https://github.com/nvim-neotest/nvim-nio",
+    "https://github.com/theHamsta/nvim-dap-virtual-text",
 })
 
 local dap = require('dap')
 
 -- Some commands
-vim.api.nvim_create_user_command("PackDel", function (opts)
+vim.api.nvim_create_user_command("PackDel", function(opts)
     vim.pack.del(opts.fargs)
-end, {nargs = '+', desc='Delete plugins (space separated)'})
+end, { nargs = '+', desc = 'Delete plugins (space separated)' })
