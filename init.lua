@@ -68,13 +68,34 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- Plugins
 -- Theme
 vim.pack.add({ 'https://github.com/vague-theme/vague.nvim' })
-vim.cmd.colorscheme('vague')
+vim.pack.add({ 'https://github.com/folke/tokyonight.nvim' })
+vim.cmd.colorscheme('tokyonight')
 
 -- Autopairs
 vim.pack.add({
     { src = 'https://github.com/windwp/nvim-autopairs' }
 })
 require('nvim-autopairs').setup()
+
+vim.pack.add({
+    'https://github.com/windwp/nvim-ts-autotag'
+})
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+    ["html"] = {
+      enable_close = false
+    }
+  }
+})
 
 -- nvim.surround
 vim.pack.add({
